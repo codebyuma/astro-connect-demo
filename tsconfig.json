@@ -1,3 +1,11 @@
 {
-  "extends": "astro/tsconfigs/base"
+  "extends": "astro/tsconfigs/base",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": ".connect/schema.graphql"
+      }
+    ]
+  }
 }

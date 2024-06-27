@@ -1,0 +1,462 @@
+"""Add date formatting options."""
+directive @dateformat(formatString: String, locale: String, fromNow: Boolean, difference: String) on FIELD_DEFINITION
+
+"""Link to node by foreign-key relation."""
+directive @link(by: String! = "id", from: String, on: String) on FIELD_DEFINITION
+
+"""Link to File node by relative path."""
+directive @fileByRelativePath(from: String) on FIELD_DEFINITION
+
+"""Proxy resolver from another field."""
+directive @proxy(from: String!, fromNode: Boolean! = false) on FIELD_DEFINITION
+
+"""Infer field types from field values."""
+directive @infer on OBJECT
+
+"""Do not infer field types from field values."""
+directive @dontInfer on OBJECT
+
+"""Define the mime-types handled by this type."""
+directive @mimeTypes(
+  """The mime-types handled by this type."""
+  types: [String!]! = []
+) on OBJECT
+
+"""
+Define parent-child relations between types. This is used to add `child*` and `children*` convenience fields like `childImageSharp`.
+"""
+directive @childOf(
+  """
+  A list of mime-types this type is a child of. Usually these are the mime-types handled by a transformer plugin.
+  """
+  mimeTypes: [String!]! = []
+
+  """
+  A list of types this type is a child of. Usually these are the types handled by a transformer plugin.
+  """
+  types: [String!]! = []
+) on OBJECT
+
+"""
+DEPRECATED: Use interface inheritance instead, i.e. "interface Foo implements Node".
+
+Adds root query fields for an interface. All implementing types must also implement the Node interface.
+"""
+directive @nodeInterface on INTERFACE
+
+"""Define authorization rules for this type."""
+directive @authorization(
+  """A list of auth scopes that are allowed to access this type."""
+  labels: [String!]! = []
+) on OBJECT | FIELD_DEFINITION
+
+type Query {
+  uma123InternalAssetDetail(colors: Uma123InternalColorFilterListInput, size: IntQueryOperatorInput, width: IntQueryOperatorInput, height: IntQueryOperatorInput, path: StringQueryOperatorInput, format: StringQueryOperatorInput, author: StringQueryOperatorInput, notes: StringQueryOperatorInput, smart_tags: StringQueryOperatorInput, filename: StringQueryOperatorInput, basename: StringQueryOperatorInput, created_at: StringQueryOperatorInput, updated_at: StringQueryOperatorInput, is_image: BooleanQueryOperatorInput, url: StringQueryOperatorInput, blurhash: StringQueryOperatorInput, thumbhash: StringQueryOperatorInput, mime_type: StringQueryOperatorInput, upload_id: StringQueryOperatorInput, md5: StringQueryOperatorInput, _objectId: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Uma123InternalAssetDetail
+  allUma123InternalAssetDetail(filter: Uma123InternalAssetDetailFilterInput, sort: [Uma123InternalAssetDetailSortInput], skip: Int, limit: Int): Uma123InternalAssetDetailConnection!
+  uma123Article(title: StringQueryOperatorInput, _objectId: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Uma123article
+  allUma123Article(filter: Uma123articleFilterInput, sort: [Uma123articleSortInput], skip: Int, limit: Int): Uma123articleConnection!
+}
+
+""""""
+type Uma123InternalAssetDetail implements Node {
+  colors: [Uma123InternalColor]
+  size: Int
+  width: Int
+  height: Int
+  path: String
+  format: String
+  author: String
+  notes: String
+  smart_tags: [String]
+  filename: String
+  basename: String
+  created_at: String
+  updated_at: String
+  is_image: Boolean
+  url: String
+  blurhash: String
+  thumbhash: String
+  mime_type: String
+  upload_id: String
+  md5: String
+  _objectId: String!
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+"""Node Interface"""
+interface Node {
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+""""""
+type Internal {
+  content: String
+  contentDigest: String!
+  description: String
+  fieldOwners: [String]
+  ignoreType: Boolean
+  mediaType: String
+  owner: String!
+  type: String!
+  contentFilePath: String
+}
+
+""""""
+type Uma123InternalColor {
+  red: Int
+  blue: Int
+  alpha: Int
+  green: Int
+}
+
+""""""
+input Uma123InternalColorFilterListInput {
+  elemMatch: Uma123InternalColorFilterInput
+}
+
+""""""
+input Uma123InternalColorFilterInput {
+  red: IntQueryOperatorInput
+  blue: IntQueryOperatorInput
+  alpha: IntQueryOperatorInput
+  green: IntQueryOperatorInput
+}
+
+""""""
+input IntQueryOperatorInput {
+  eq: Int
+  ne: Int
+  gt: Int
+  gte: Int
+  lt: Int
+  lte: Int
+  in: [Int]
+  nin: [Int]
+}
+
+""""""
+input StringQueryOperatorInput {
+  eq: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: String
+  glob: String
+}
+
+""""""
+input BooleanQueryOperatorInput {
+  eq: Boolean
+  ne: Boolean
+  in: [Boolean]
+  nin: [Boolean]
+}
+
+""""""
+input NodeFilterInput {
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterInput
+  internal: InternalFilterInput
+}
+
+""""""
+input InternalFilterInput {
+  content: StringQueryOperatorInput
+  contentDigest: StringQueryOperatorInput
+  description: StringQueryOperatorInput
+  fieldOwners: StringQueryOperatorInput
+  ignoreType: BooleanQueryOperatorInput
+  mediaType: StringQueryOperatorInput
+  owner: StringQueryOperatorInput
+  type: StringQueryOperatorInput
+  contentFilePath: StringQueryOperatorInput
+}
+
+""""""
+input NodeFilterListInput {
+  elemMatch: NodeFilterInput
+}
+
+""""""
+type Uma123InternalAssetDetailConnection {
+  totalCount: Int!
+  edges: [Uma123InternalAssetDetailEdge!]!
+  nodes: [Uma123InternalAssetDetail!]!
+  pageInfo: PageInfo!
+  distinct(field: Uma123InternalAssetDetailFieldSelector!): [String!]!
+  max(field: Uma123InternalAssetDetailFieldSelector!): Float
+  min(field: Uma123InternalAssetDetailFieldSelector!): Float
+  sum(field: Uma123InternalAssetDetailFieldSelector!): Float
+  group(skip: Int, limit: Int, field: Uma123InternalAssetDetailFieldSelector!): [Uma123InternalAssetDetailGroupConnection!]!
+}
+
+""""""
+type Uma123InternalAssetDetailEdge {
+  next: Uma123InternalAssetDetail
+  node: Uma123InternalAssetDetail!
+  previous: Uma123InternalAssetDetail
+}
+
+""""""
+type PageInfo {
+  currentPage: Int!
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+  itemCount: Int!
+  pageCount: Int!
+  perPage: Int
+  totalCount: Int!
+}
+
+""""""
+input Uma123InternalAssetDetailFieldSelector {
+  colors: Uma123InternalColorFieldSelector
+  size: FieldSelectorEnum
+  width: FieldSelectorEnum
+  height: FieldSelectorEnum
+  path: FieldSelectorEnum
+  format: FieldSelectorEnum
+  author: FieldSelectorEnum
+  notes: FieldSelectorEnum
+  smart_tags: FieldSelectorEnum
+  filename: FieldSelectorEnum
+  basename: FieldSelectorEnum
+  created_at: FieldSelectorEnum
+  updated_at: FieldSelectorEnum
+  is_image: FieldSelectorEnum
+  url: FieldSelectorEnum
+  blurhash: FieldSelectorEnum
+  thumbhash: FieldSelectorEnum
+  mime_type: FieldSelectorEnum
+  upload_id: FieldSelectorEnum
+  md5: FieldSelectorEnum
+  _objectId: FieldSelectorEnum
+  id: FieldSelectorEnum
+  parent: NodeFieldSelector
+  children: NodeFieldSelector
+  internal: InternalFieldSelector
+}
+
+""""""
+input Uma123InternalColorFieldSelector {
+  red: FieldSelectorEnum
+  blue: FieldSelectorEnum
+  alpha: FieldSelectorEnum
+  green: FieldSelectorEnum
+}
+
+""""""
+enum FieldSelectorEnum {
+  SELECT
+}
+
+""""""
+input NodeFieldSelector {
+  id: FieldSelectorEnum
+  parent: NodeFieldSelector
+  children: NodeFieldSelector
+  internal: InternalFieldSelector
+}
+
+""""""
+input InternalFieldSelector {
+  content: FieldSelectorEnum
+  contentDigest: FieldSelectorEnum
+  description: FieldSelectorEnum
+  fieldOwners: FieldSelectorEnum
+  ignoreType: FieldSelectorEnum
+  mediaType: FieldSelectorEnum
+  owner: FieldSelectorEnum
+  type: FieldSelectorEnum
+  contentFilePath: FieldSelectorEnum
+}
+
+""""""
+type Uma123InternalAssetDetailGroupConnection {
+  totalCount: Int!
+  edges: [Uma123InternalAssetDetailEdge!]!
+  nodes: [Uma123InternalAssetDetail!]!
+  pageInfo: PageInfo!
+  distinct(field: Uma123InternalAssetDetailFieldSelector!): [String!]!
+  max(field: Uma123InternalAssetDetailFieldSelector!): Float
+  min(field: Uma123InternalAssetDetailFieldSelector!): Float
+  sum(field: Uma123InternalAssetDetailFieldSelector!): Float
+  group(skip: Int, limit: Int, field: Uma123InternalAssetDetailFieldSelector!): [Uma123InternalAssetDetailGroupConnection!]!
+  field: String!
+  fieldValue: String
+}
+
+""""""
+input Uma123InternalAssetDetailFilterInput {
+  colors: Uma123InternalColorFilterInput
+  size: IntQueryOperatorInput
+  width: IntQueryOperatorInput
+  height: IntQueryOperatorInput
+  path: StringQueryOperatorInput
+  format: StringQueryOperatorInput
+  author: StringQueryOperatorInput
+  notes: StringQueryOperatorInput
+  smart_tags: StringQueryOperatorInput
+  filename: StringQueryOperatorInput
+  basename: StringQueryOperatorInput
+  created_at: StringQueryOperatorInput
+  updated_at: StringQueryOperatorInput
+  is_image: BooleanQueryOperatorInput
+  url: StringQueryOperatorInput
+  blurhash: StringQueryOperatorInput
+  thumbhash: StringQueryOperatorInput
+  mime_type: StringQueryOperatorInput
+  upload_id: StringQueryOperatorInput
+  md5: StringQueryOperatorInput
+  _objectId: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterInput
+  internal: InternalFilterInput
+}
+
+""""""
+input Uma123InternalAssetDetailSortInput {
+  colors: Uma123InternalColorSortInput
+  size: SortOrderEnum
+  width: SortOrderEnum
+  height: SortOrderEnum
+  path: SortOrderEnum
+  format: SortOrderEnum
+  author: SortOrderEnum
+  notes: SortOrderEnum
+  smart_tags: SortOrderEnum
+  filename: SortOrderEnum
+  basename: SortOrderEnum
+  created_at: SortOrderEnum
+  updated_at: SortOrderEnum
+  is_image: SortOrderEnum
+  url: SortOrderEnum
+  blurhash: SortOrderEnum
+  thumbhash: SortOrderEnum
+  mime_type: SortOrderEnum
+  upload_id: SortOrderEnum
+  md5: SortOrderEnum
+  _objectId: SortOrderEnum
+  id: SortOrderEnum
+  parent: NodeSortInput
+  children: NodeSortInput
+  internal: InternalSortInput
+}
+
+""""""
+input Uma123InternalColorSortInput {
+  red: SortOrderEnum
+  blue: SortOrderEnum
+  alpha: SortOrderEnum
+  green: SortOrderEnum
+}
+
+""""""
+enum SortOrderEnum {
+  ASC
+  DESC
+}
+
+""""""
+input NodeSortInput {
+  id: SortOrderEnum
+  parent: NodeSortInput
+  children: NodeSortInput
+  internal: InternalSortInput
+}
+
+""""""
+input InternalSortInput {
+  content: SortOrderEnum
+  contentDigest: SortOrderEnum
+  description: SortOrderEnum
+  fieldOwners: SortOrderEnum
+  ignoreType: SortOrderEnum
+  mediaType: SortOrderEnum
+  owner: SortOrderEnum
+  type: SortOrderEnum
+  contentFilePath: SortOrderEnum
+}
+
+""""""
+type Uma123article implements Node {
+  title: String
+  _objectId: String!
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
+}
+
+""""""
+type Uma123articleConnection {
+  totalCount: Int!
+  edges: [Uma123articleEdge!]!
+  nodes: [Uma123article!]!
+  pageInfo: PageInfo!
+  distinct(field: Uma123articleFieldSelector!): [String!]!
+  max(field: Uma123articleFieldSelector!): Float
+  min(field: Uma123articleFieldSelector!): Float
+  sum(field: Uma123articleFieldSelector!): Float
+  group(skip: Int, limit: Int, field: Uma123articleFieldSelector!): [Uma123articleGroupConnection!]!
+}
+
+""""""
+type Uma123articleEdge {
+  next: Uma123article
+  node: Uma123article!
+  previous: Uma123article
+}
+
+""""""
+input Uma123articleFieldSelector {
+  title: FieldSelectorEnum
+  _objectId: FieldSelectorEnum
+  id: FieldSelectorEnum
+  parent: NodeFieldSelector
+  children: NodeFieldSelector
+  internal: InternalFieldSelector
+}
+
+""""""
+type Uma123articleGroupConnection {
+  totalCount: Int!
+  edges: [Uma123articleEdge!]!
+  nodes: [Uma123article!]!
+  pageInfo: PageInfo!
+  distinct(field: Uma123articleFieldSelector!): [String!]!
+  max(field: Uma123articleFieldSelector!): Float
+  min(field: Uma123articleFieldSelector!): Float
+  sum(field: Uma123articleFieldSelector!): Float
+  group(skip: Int, limit: Int, field: Uma123articleFieldSelector!): [Uma123articleGroupConnection!]!
+  field: String!
+  fieldValue: String
+}
+
+""""""
+input Uma123articleFilterInput {
+  title: StringQueryOperatorInput
+  _objectId: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterInput
+  internal: InternalFilterInput
+}
+
+""""""
+input Uma123articleSortInput {
+  title: SortOrderEnum
+  _objectId: SortOrderEnum
+  id: SortOrderEnum
+  parent: NodeSortInput
+  children: NodeSortInput
+  internal: InternalSortInput
+}
