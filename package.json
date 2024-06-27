@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/check": "^0.7.0",
     "@netlify/connect-client": "^0.3.2",
+    "@netlify/edge-functions": "^2.8.1",
     "@netlify/functions": "^2.8.0",
     "astro": "^4.11.3",
     "typescript": "^5.5.2"
