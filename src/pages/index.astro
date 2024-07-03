@@ -18,8 +18,7 @@ const articleQuery = graphql(`
 
 const getArticles = async (Astro: any) => {
 	const res = await query(articleQuery, { Astro });
-	console.log("res ", res);
-	return res? res.allUma123Article?.nodes : [];
+	return res ? res.allUma123Article.nodes : [];
 };
 
 const articles = await getArticles(Astro);
