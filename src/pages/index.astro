@@ -1,6 +1,29 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+
+import { query } from "@netlify/connect-client";
+import { graphql } from "../netlify-connect/graphql"; 
+
+const articleQuery = graphql(`
+    query MyQuery {
+        allUma123Article {
+            nodes {
+                id
+                title
+            }
+        }   
+    }
+`);
+
+const getArticles = async (Astro: any) => {
+	const res = await query(articleQuery, { Astro });
+	console.log("res ", res);
+	return res? res.allUma123Article?.nodes : [];
+};
+
+const articles = await getArticles(Astro);
+console.log(articles);
 ---
 
 <Layout title="Welcome to Astro.">
@@ -35,8 +58,16 @@ import Card from '../components/Card.astro';
 		</svg>
 		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
 		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
+			<ul>
+				{
+					articles.map(article => (
+					  <li>
+						<p>ID: {article.id}</p>
+						<p>Title: {article.title}</p>
+					  </li>
+					))
+				  }
+			</ul>
 		</p>
 		<ul role="list" class="link-card-grid">
 			<Card
