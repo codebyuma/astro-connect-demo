@@ -7,7 +7,7 @@ import { graphql } from "../netlify-connect/graphql";
 
 const articleQuery = graphql(`
     query MyQuery {
-        allUma123Article {
+        allUma123Article(limit: 3) {
             nodes {
                 id
                 title
